@@ -19,9 +19,12 @@ public class NotificationJob
         _telegram = telegram;
     }
 
-    public async Task Run()
+    // =========================
+    // ATTENDANCE
+    // =========================
+    public async Task RunAttendanceNotifications()
     {
-        var students = _excel.GetStudents();
+        var students = _excel.GetAttendanceStudents();
 
         foreach (var s in students)
         {
@@ -29,21 +32,43 @@ public class NotificationJob
             {
                 var msg = $"{s.StudentName} was absent today.";
 
-                if (s.PreferredChannel == NotificationChannel.WhatsApp)
-                    _whatsapp.Send(s.ParentPhone, msg);
-                else
-                    await _telegram.Send(msg);
+                await SendMessage(s, msg);
             }
+        }
+    }
 
+    // =========================
+    // FEES
+    // =========================
+    public async Task RunFeeReminders()
+    {
+        var students = _excel.GetFeesStudents();
+
+        foreach (var s in students)
+        {
             if (s.FeesDue > 0)
             {
                 var msg = $"Fees pending: ₹{s.FeesDue}";
 
-                if (s.PreferredChannel == NotificationChannel.WhatsApp)
-                    _whatsapp.Send(s.ParentPhone, msg);
-                else
-                    await _telegram.Send(msg);
+                await SendMessage(s, msg);
             }
+        }
+    }
+
+    // =========================
+    // COMMON MESSAGE HANDLER
+    // =========================
+    private async Task SendMessage(Student s, string msg)
+    {
+        Console.WriteLine($"Sending to {s.StudentName}");
+
+        if (s.PreferredChannel == NotificationChannel.WhatsApp)
+        {
+            _whatsapp.Send(s.ParentPhone, msg);
+        }
+        else
+        {
+            await _telegram.Send(msg);
         }
     }
 }

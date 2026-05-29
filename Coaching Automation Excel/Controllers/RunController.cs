@@ -14,10 +14,25 @@ public class RunController : ControllerBase
         _job = job;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> Run()
+    // =========================
+    // ATTENDANCE
+    // =========================
+    [HttpGet("attendance")]
+    public async Task<IActionResult> Attendance()
     {
-        await _job.Run();
-        return Ok("Done");
+        await _job.RunAttendanceNotifications();
+
+        return Ok("Attendance notifications sent.");
+    }
+
+    // =========================
+    // FEES
+    // =========================
+    [HttpGet("fees")]
+    public async Task<IActionResult> Fees()
+    {
+        await _job.RunFeeReminders();
+
+        return Ok("Fee reminders sent.");
     }
 }

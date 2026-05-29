@@ -39,11 +39,4 @@ app.MapControllers();
 // Hangfire Dashboard
 app.UseHangfireDashboard();
 
-// Schedule job (daily 7 PM)
-RecurringJob.AddOrUpdate<NotificationJob>(
-    "daily-job",
-    job => job.Run(),
-    "0 19 * * *"
-);
-
 app.Run();

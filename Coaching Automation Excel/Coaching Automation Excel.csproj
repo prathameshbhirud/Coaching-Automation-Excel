@@ -15,9 +15,12 @@
     <PackageReference Include="Twilio" Version="7.14.7" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="students.xlsx">
+    <None Update="attendance.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
+    <None Update="fees.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+</ItemGroup>
 
 </Project>

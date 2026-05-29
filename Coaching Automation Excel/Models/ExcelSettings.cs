@@ -1,5 +1,6 @@
 namespace CoachingAutomationExcel.Models;
 public class ExcelSettings
 {
-    public string FilePath { get; set; }
+    public string AttendanceFilePath { get; set; }
+    public string FeesFilePath { get; set; }
 }
