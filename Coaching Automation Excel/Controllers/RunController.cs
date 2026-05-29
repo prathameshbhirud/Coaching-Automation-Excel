@@ -35,4 +35,15 @@ public class RunController : ControllerBase
 
         return Ok("Fee reminders sent.");
     }
+
+    // =========================
+    // EXAMS
+    // =========================
+    [HttpGet("exams")]
+    public async Task<IActionResult> Exams()
+    {
+        await _job.RunExamReminders();
+
+        return Ok("Exam reminders sent.");
+    }
 }

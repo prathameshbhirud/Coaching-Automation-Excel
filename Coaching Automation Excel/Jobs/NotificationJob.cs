@@ -56,6 +56,27 @@ public class NotificationJob
     }
 
     // =========================
+    // EXAMS
+    // =========================
+    public async Task RunExamReminders()
+    {
+        Console.WriteLine("Running exam reminders..."); // TODO
+
+        var students = _excel.GetExamStudents();
+
+        foreach (var s in students)
+        {
+            var examDateText = s.ExamDate?.ToString("dd MMM yyyy") ?? "TBD";
+
+            var msg = $"Upcoming Exam: {s.ExamName} on {examDateText}";
+
+            Console.WriteLine("Message : " + msg); // TODO
+
+            await SendMessage(s, msg);
+        }
+    }
+
+    // =========================
     // COMMON MESSAGE HANDLER
     // =========================
     private async Task SendMessage(Student s, string msg)
