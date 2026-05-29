@@ -37,7 +37,8 @@ This system reads student data from an Excel file and automatically sends:
 /Services
 /Jobs
 /Controllers
-students.xlsx
+attendance.xlsx
+fees.xlsx
 appsettings.json
 ```
 
@@ -45,19 +46,27 @@ appsettings.json
 
 ## 📊 Excel Format
 
-Create a file named:
+Create two files named:
 
 ```
-students.xlsx
+attendance.xlsx
+fees.xlsx
 ```
 
-Add the following columns:
+Add the following columns to attendance.xls:
 
-| StudentName | ParentPhone   | Attendance | FeesDue | Channel  |
-| ----------- | ------------- | ---------- | ------- | -------- |
-| Rahul       | +919876543210 | Absent     | 5000    | WhatsApp |
-| Amit        | +919812345678 | Present    | 0       | Telegram |
+| StudentName | ParentPhone   | Attendance | Channel  |
+| ----------- | ------------- | ---------- | -------- |
+| TEST1       | +919876543210 | Absent     | WhatsApp |
+| TEST2       | +919812345678 | Present    | Telegram |
 
+
+Add the following columns to fees.xls:
+
+| StudentName | ParentPhone   | FeesDue | Channel  |
+| ----------- | ------------- | ------- | -------- |
+| TEST1       | +919876543210 | 5000    | WhatsApp |
+| TEST2       | +919812345678 | 1000    | Telegram |
 ---
 
 ## ⚙️ Configuration
@@ -66,17 +75,23 @@ Update `appsettings.json`:
 
 ```json
 {
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information"
+    }
+  },
   "Twilio": {
-    "AccountSid": "YOUR_SID",
-    "AuthToken": "YOUR_TOKEN",
-    "FromNumber": "whatsapp:+14155238886"
+    "AccountSid": "ACCOUNT_SID",
+    "AuthToken": "AUTH_TOKEN",
+    "FromNumber": "FROM_NUMBER"
   },
   "Telegram": {
-    "BotToken": "YOUR_BOT_TOKEN",
-    "ChatId": "YOUR_CHAT_ID"
+    "BotToken": "BOT_TOKEN",
+    "ChatId": "CHAT_ID"
   },
   "Excel": {
-    "FilePath": "students.xlsx"
+    "AttendanceFilePath": "attendance.xlsx",
+    "FeesFilePath": "fees.xlsx"
   }
 }
 ```
@@ -88,7 +103,7 @@ Update `appsettings.json`:
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/coaching-automation.git
+git clone https://github.com/prathameshbhirud/coaching-automation.git
 cd coaching-automation
 ```
 
@@ -104,7 +119,7 @@ dotnet restore
 
 ### 3. Add Excel File
 
-Place `students.xlsx` in project root.
+Place `attendance.xlsx` and `fees.xlsx` in project root.
 
 ---
 
@@ -114,9 +129,12 @@ Update `.csproj`:
 
 ```xml
 <ItemGroup>
-  <None Update="students.xlsx">
-    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-  </None>
+    <None Update="attendance.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="fees.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
 </ItemGroup>
 ```
 
@@ -141,7 +159,8 @@ GET /api/run
 Example:
 
 ```
-http://localhost:5000/api/run
+http://localhost:5000/api/run/attendance
+http://localhost:5000/api/run/fees
 ```
 
 ---
