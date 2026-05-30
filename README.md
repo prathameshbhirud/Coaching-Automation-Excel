@@ -20,8 +20,9 @@ This system reads data from Excel files and automatically sends:
 * ✅ Fee reminder module
 * ✅ Exam reminder module
 * ✅ Broadcast / announcement module
-* ✅ Multi-channel notification support
+* ✅ Centralized Message Template Service
 * ✅ Structured logging using Serilog
+* ✅ Multi-channel notification support
 * ✅ Automated scheduling using Hangfire
 * ✅ Modular API architecture
 
@@ -53,6 +54,74 @@ exams.xlsx
 broadcast.xlsx
 
 appsettings.json
+```
+
+---
+
+# 🧠 Message Template Service
+
+The application uses a centralized `MessageTemplateService` to generate all notification messages.
+
+This improves:
+
+* maintainability
+* branding
+* customization
+* future multi-language support
+
+---
+
+## Supported Templates
+
+### 📲 Attendance Template
+
+```text
+Dear Parent,
+
+Rahul was absent for today's lecture.
+
+- ABC Coaching Classes
+```
+
+---
+
+### 💰 Fees Reminder Template
+
+```text
+Dear Parent,
+
+Fees of ₹5000 are pending for Rahul.
+
+Kindly complete payment at the earliest.
+
+- ABC Coaching Classes
+```
+
+---
+
+### 📝 Exam Reminder Template
+
+```text
+Dear Student,
+
+Upcoming Exam:
+Mathematics Test
+
+Date: 05 Jun 2026
+
+- ABC Coaching Classes
+```
+
+---
+
+### 📢 Broadcast Template
+
+```text
+Dear Students,
+
+Tomorrow holiday due to rain.
+
+- ABC Coaching Classes
 ```
 
 ---
@@ -129,87 +198,12 @@ Update `appsettings.json`:
 
 ---
 
-# 🔑 Setup Instructions
-
-## 1️⃣ Clone Repository
-
-```bash
-git clone https://github.com/prathameshbhirud/coaching-automation.git
-
-cd coaching-automation
-```
-
----
-
-## 2️⃣ Install Dependencies
-
-```bash
-dotnet restore
-```
-
----
-
-## 3️⃣ Add Excel Files
-
-Place these files in project root:
-
-```text
-attendance.xlsx
-fees.xlsx
-exams.xlsx
-broadcast.xlsx
-```
-
----
-
-## 4️⃣ Ensure Excel Files Are Copied To Output
-
-Update `.csproj`:
-
-```xml
-<ItemGroup>
-
-  <None Update="attendance.xlsx">
-    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-  </None>
-
-  <None Update="fees.xlsx">
-    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-  </None>
-
-  <None Update="exams.xlsx">
-    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-  </None>
-
-  <None Update="broadcast.xlsx">
-    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-  </None>
-
-</ItemGroup>
-```
-
----
-
-## 5️⃣ Run Application
-
-```bash
-dotnet run
-```
-
----
-
 # 🧪 API Endpoints
 
 ## 📲 Attendance Notifications
 
 ```http
 GET /api/run/attendance
-```
-
-Example:
-
-```text
-http://localhost:5000/api/run/attendance
 ```
 
 ---
@@ -220,12 +214,6 @@ http://localhost:5000/api/run/attendance
 GET /api/run/fees
 ```
 
-Example:
-
-```text
-http://localhost:5000/api/run/fees
-```
-
 ---
 
 ## 📝 Exam Notifications
@@ -234,24 +222,12 @@ http://localhost:5000/api/run/fees
 GET /api/run/exams
 ```
 
-Example:
-
-```text
-http://localhost:5000/api/run/exams
-```
-
 ---
 
 ## 📢 Broadcast Messages
 
 ```http
 GET /api/run/broadcast
-```
-
-Example:
-
-```text
-http://localhost:5000/api/run/broadcast
 ```
 
 ---
