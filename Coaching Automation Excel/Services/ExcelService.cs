@@ -7,11 +7,12 @@ namespace CoachingAutomationExcel.Services;
 public class ExcelService
 {
     private readonly ExcelSettings _settings;
+    private readonly ILogger<ExcelService> _logger;
 
-    public ExcelService(IOptions<ExcelSettings> settings)
+    public ExcelService(IOptions<ExcelSettings> settings, ILogger<ExcelService> logger)
     {
         _settings = settings.Value;
-
+        _logger = logger;
         ExcelPackage.License.SetNonCommercialPersonal("CoachingAutomationExcel");
     }
 
@@ -146,5 +147,46 @@ public class ExcelService
         }
 
         return students;
+    }
+
+    // =========================================
+    // BROADCAST
+    // =========================================
+    public List<BroadcastMessage> GetBroadcastMessages()
+    {
+        var messages = new List<BroadcastMessage>();
+
+        var fullPath = Path.Combine(
+            Directory.GetCurrentDirectory(),
+            _settings.BroadcastFilePath);
+
+        _logger.LogInformation(
+            "Reading broadcast excel from {Path}",
+            fullPath);
+
+        var file = new FileInfo(fullPath);
+
+        using var package = new ExcelPackage(file);
+
+        var sheet = package.Workbook.Worksheets.FirstOrDefault();
+
+        if (sheet == null)
+            throw new Exception("Broadcast worksheet not found");
+
+        for (int row = 2; row <= sheet.Dimension.Rows; row++)
+        {
+            Enum.TryParse(
+                sheet.Cells[row, 2].Text,
+                true,
+                out NotificationChannel channel);
+
+            messages.Add(new BroadcastMessage
+            {
+                Message = sheet.Cells[row, 1].Text,
+                PreferredChannel = channel
+            });
+        }
+
+        return messages;
     }
 }

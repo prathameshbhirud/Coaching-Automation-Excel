@@ -4,4 +4,5 @@ public class ExcelSettings
     public string AttendanceFilePath { get; set; }
     public string FeesFilePath { get; set; }
     public string ExamsFilePath { get; set; }
+    public string BroadcastFilePath { get; set; }
 }

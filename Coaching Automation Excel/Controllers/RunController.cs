@@ -46,4 +46,15 @@ public class RunController : ControllerBase
 
         return Ok("Exam reminders sent.");
     }
+
+    // =========================
+    // BROADCAST
+    // =========================
+    [HttpGet("broadcast")]
+    public async Task<IActionResult> Broadcast()
+    {
+        await _job.RunBroadcasts();
+
+        return Ok("Broadcast messages sent.");
+    }
 }

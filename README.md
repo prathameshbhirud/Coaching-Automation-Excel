@@ -2,74 +2,100 @@
 
 Automate communication for coaching classes using Excel + WhatsApp + Telegram.
 
-This system reads student data from an Excel file and automatically sends:
+This system reads data from Excel files and automatically sends:
 
 * 📲 Attendance alerts
 * 💰 Fee reminders
+* 📝 Exam notifications
+* 📢 Broadcast announcements
 
 ---
 
-## 🚀 Features
+# 🚀 Features
 
-* ✅ Excel-based data input (no technical skills needed)
+* ✅ Excel-based data input (non-technical staff friendly)
 * ✅ WhatsApp messaging via Twilio
 * ✅ Telegram bot integration
-* ✅ Multi-channel notification system
-* ✅ Automated scheduler (runs every few minutes)
-* ✅ Simple API trigger for manual execution
+* ✅ Attendance notification module
+* ✅ Fee reminder module
+* ✅ Exam reminder module
+* ✅ Broadcast / announcement module
+* ✅ Multi-channel notification support
+* ✅ Structured logging using Serilog
+* ✅ Automated scheduling using Hangfire
+* ✅ Modular API architecture
 
 ---
 
-## 🧱 Tech Stack
+# 🧱 Tech Stack
 
 * .NET Web API
 * EPPlus (Excel processing)
 * Twilio (WhatsApp API)
 * Telegram Bot API
 * Hangfire (background jobs)
+* Serilog (structured logging)
 
 ---
 
-## 📂 Project Structure
+# 📂 Project Structure
 
-```
+```text
+/Controllers
+/Jobs
 /Models
 /Services
-/Jobs
-/Controllers
+/logs
+
 attendance.xlsx
 fees.xlsx
+exams.xlsx
+broadcast.xlsx
+
 appsettings.json
 ```
 
 ---
 
-## 📊 Excel Format
+# 📊 Excel File Formats
 
-Create two files named:
-
-```
-attendance.xlsx
-fees.xlsx
-```
-
-Add the following columns to attendance.xls:
+## 1️⃣ attendance.xlsx
 
 | StudentName | ParentPhone   | Attendance | Channel  |
 | ----------- | ------------- | ---------- | -------- |
 | TEST1       | +919876543210 | Absent     | WhatsApp |
 | TEST2       | +919812345678 | Present    | Telegram |
 
+---
 
-Add the following columns to fees.xls:
+## 2️⃣ fees.xlsx
 
 | StudentName | ParentPhone   | FeesDue | Channel  |
 | ----------- | ------------- | ------- | -------- |
 | TEST1       | +919876543210 | 5000    | WhatsApp |
 | TEST2       | +919812345678 | 1000    | Telegram |
+
 ---
 
-## ⚙️ Configuration
+## 3️⃣ exams.xlsx
+
+| StudentName | ParentPhone   | ExamName     | ExamDate   | Channel  |
+| ----------- | ------------- | ------------ | ---------- | -------- |
+| TEST1       | +919876543210 | Maths Test   | 2026-06-05 | WhatsApp |
+| TEST2       | +919812345678 | Physics Quiz | 2026-06-06 | Telegram |
+
+---
+
+## 4️⃣ broadcast.xlsx
+
+| Message                       | Channel  |
+| ----------------------------- | -------- |
+| Tomorrow holiday due to rain  | WhatsApp |
+| Physics class shifted to 6 PM | Telegram |
+
+---
+
+# ⚙️ Configuration
 
 Update `appsettings.json`:
 
@@ -80,36 +106,42 @@ Update `appsettings.json`:
       "Default": "Information"
     }
   },
+
   "Twilio": {
     "AccountSid": "ACCOUNT_SID",
     "AuthToken": "AUTH_TOKEN",
     "FromNumber": "FROM_NUMBER"
   },
+
   "Telegram": {
     "BotToken": "BOT_TOKEN",
     "ChatId": "CHAT_ID"
   },
+
   "Excel": {
     "AttendanceFilePath": "attendance.xlsx",
-    "FeesFilePath": "fees.xlsx"
+    "FeesFilePath": "fees.xlsx",
+    "ExamsFilePath": "exams.xlsx",
+    "BroadcastFilePath": "broadcast.xlsx"
   }
 }
 ```
 
 ---
 
-## 🔑 Setup Instructions
+# 🔑 Setup Instructions
 
-### 1. Clone Repository
+## 1️⃣ Clone Repository
 
 ```bash
 git clone https://github.com/prathameshbhirud/coaching-automation.git
+
 cd coaching-automation
 ```
 
 ---
 
-### 2. Install Dependencies
+## 2️⃣ Install Dependencies
 
 ```bash
 dotnet restore
@@ -117,30 +149,48 @@ dotnet restore
 
 ---
 
-### 3. Add Excel File
+## 3️⃣ Add Excel Files
 
-Place `attendance.xlsx` and `fees.xlsx` in project root.
+Place these files in project root:
+
+```text
+attendance.xlsx
+fees.xlsx
+exams.xlsx
+broadcast.xlsx
+```
 
 ---
 
-### 4. Ensure File is Copied to Output
+## 4️⃣ Ensure Excel Files Are Copied To Output
 
 Update `.csproj`:
 
 ```xml
 <ItemGroup>
-    <None Update="attendance.xlsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="fees.xlsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+
+  <None Update="attendance.xlsx">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+
+  <None Update="fees.xlsx">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+
+  <None Update="exams.xlsx">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+
+  <None Update="broadcast.xlsx">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+
 </ItemGroup>
 ```
 
 ---
 
-### 5. Run Project
+## 5️⃣ Run Application
 
 ```bash
 dotnet run
@@ -148,83 +198,176 @@ dotnet run
 
 ---
 
-## 🧪 API Usage
+# 🧪 API Endpoints
 
-Trigger notifications manually:
+## 📲 Attendance Notifications
 
-```
-GET /api/run
+```http
+GET /api/run/attendance
 ```
 
 Example:
 
-```
+```text
 http://localhost:5000/api/run/attendance
+```
+
+---
+
+## 💰 Fee Reminders
+
+```http
+GET /api/run/fees
+```
+
+Example:
+
+```text
 http://localhost:5000/api/run/fees
 ```
 
 ---
 
-## ⏰ Automation (Scheduler)
+## 📝 Exam Notifications
 
-System runs automatically every few minutes using Hangfire.
+```http
+GET /api/run/exams
+```
 
-You can modify schedule in `Program.cs`.
+Example:
+
+```text
+http://localhost:5000/api/run/exams
+```
 
 ---
 
-## ⚠️ Important Notes
+## 📢 Broadcast Messages
 
-* Excel file should not be open while running the application
+```http
+GET /api/run/broadcast
+```
+
+Example:
+
+```text
+http://localhost:5000/api/run/broadcast
+```
+
+---
+
+# 📜 Logging
+
+Application uses Serilog for structured logging.
+
+Logs are stored in:
+
+```text
+/logs
+```
+
+Example logs:
+
+```text
+[INF] Starting exam reminders
+[INF] Sending message to TEST1
+[INF] Message sent successfully
+```
+
+Errors:
+
+```text
+[ERR] Failed sending message
+Twilio Authentication Error
+```
+
+---
+
+# ⏰ Scheduling
+
+System uses Hangfire for automation.
+
+You can schedule:
+
+* Daily attendance reminders
+* Monthly fee reminders
+* Exam notifications
+* Broadcast announcements
+
+Modify schedules in:
+
+```text
+Program.cs
+```
+
+---
+
+# ⚠️ Important Notes
+
+* Excel files should not be open while application is running
 * Phone numbers must include country code (e.g., +91XXXXXXXXXX)
-* WhatsApp Sandbox requires user opt-in (for testing)
+* WhatsApp Sandbox requires opt-in for testing
 * Production requires WhatsApp Business API approval
+* Ensure Excel files exist in output directory
 
 ---
 
-## 🔒 Security
+# 🔒 Security
 
 Do NOT commit:
 
 * `appsettings.json`
-* `credentials.json`
+* credentials
+* API tokens
 
-Use `appsettings.example.json` for sharing configuration.
+Use:
+
+```text
+appsettings.example.json
+```
+
+for shared configuration templates.
 
 ---
 
-## 💡 Use Cases
+# 💡 Use Cases
 
 * Coaching classes
 * Tuition centers
 * Schools
 * Training institutes
+* Educational institutes
 
 ---
 
-## 🚀 Future Enhancements
+# 🚀 Future Enhancements
 
-* Multi-coaching (multi-tenant) support
-* Admin dashboard (Angular)
-* Excel upload UI
+* Multi-tenant coaching support
+* Parent-specific broadcast targeting
+* Bulk recipient management
+* Angular admin dashboard
 * Database integration
 * Analytics & reporting
+* Excel upload UI
+* WhatsApp template management
 
 ---
 
-## 🤝 Contributing
+# 🤝 Contributing
 
 Feel free to fork and improve the project.
 
 ---
 
-## 📞 Contact
+# 📞 Contact
 
-Your Name
-Your Email / Phone
+Prathamesh B
+
+GitHub:
+https://github.com/prathameshbhirud
 
 ---
 
-## ⭐ If You Like This Project
+# ⭐ Support
 
-Give it a star on GitHub!
+If you like this project, give it a star on GitHub.
