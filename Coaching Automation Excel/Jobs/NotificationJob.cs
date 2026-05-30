@@ -9,17 +9,20 @@ public class NotificationJob
     private readonly WhatsAppService _whatsapp;
     private readonly TelegramService _telegram;
     private readonly ILogger<NotificationJob> _logger;
+    private readonly MessageTemplateService _templates;
 
     public NotificationJob(
         ExcelService excel,
         WhatsAppService whatsapp,
         TelegramService telegram,
-        ILogger<NotificationJob> logger)
+        ILogger<NotificationJob> logger,
+        MessageTemplateService templates)
     {
         _excel = excel;
         _whatsapp = whatsapp;
         _telegram = telegram;
         _logger = logger;
+        _templates = templates;
     }
 
     // =========================
@@ -34,7 +37,7 @@ public class NotificationJob
         {
             if (s.Attendance.ToLower() == "absent")
             {
-                var msg = $"{s.StudentName} was absent today.";
+                var msg = _templates.GetAttendanceMessage(s);
 
                 _logger.LogInformation("Sending Attendance Notifications...");
 
@@ -58,7 +61,7 @@ public class NotificationJob
         {
             if (s.FeesDue > 0)
             {
-                var msg = $"Fees pending: ₹{s.FeesDue}";
+                var msg = _templates.GetFeesReminder(s);
 
                 _logger.LogInformation("Sending Fees Reminders...");
 
@@ -82,7 +85,7 @@ public class NotificationJob
         {
             var examDateText = s.ExamDate?.ToString("dd MMM yyyy") ?? "TBD";
 
-            var msg = $"Upcoming Exam: {s.ExamName} on {examDateText}";
+            var msg = _templates.GetExamReminder(s);
 
            _logger.LogInformation("Sending Exams Reminders...");
 
@@ -132,7 +135,7 @@ public class NotificationJob
                     // TODO: update list of bulk recipients
                     _whatsapp.Send(
                         "+91<YOUR_TEST_NUMBER>",
-                        b.Message);
+                        _templates.GetBroadcastMessage(b.Message));
                 }
                 else
                 {

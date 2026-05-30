@@ -32,6 +32,7 @@ builder.Services.AddSingleton<ExcelService>();
 builder.Services.AddSingleton<WhatsAppService>();
 builder.Services.AddSingleton<TelegramService>();
 builder.Services.AddSingleton<NotificationJob>();
+builder.Services.AddSingleton<MessageTemplateService>();
 
 // Hangfire
 builder.Services.AddHangfire(config =>
