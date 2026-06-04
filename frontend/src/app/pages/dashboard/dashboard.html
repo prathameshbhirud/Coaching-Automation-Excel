@@ -1,1 +1,48 @@
-<p>dashboard works!</p>
+<h1 class="dashboard-title">
+  Dashboard
+</h1>
+
+<div class="summary-grid" *ngIf="summary">
+  <mat-card class="summary-card">
+      <mat-icon>groups</mat-icon>
+      <h2> {{summary.totalStudents}}</h2>
+      <p>Students</p>
+  </mat-card>
+
+  <mat-card class="summary-card">
+      <mat-icon>fact_check</mat-icon>
+      <h2>{{summary.attendanceToday}}</h2>
+      <p>Attendance</p>
+  </mat-card>
+
+  <mat-card class="summary-card">
+      <mat-icon>payments</mat-icon>
+      <h2>{{summary.pendingFees}}</h2>
+      <p>Pending Fees</p>
+  </mat-card>
+
+  <mat-card class="summary-card">
+      <mat-icon>event</mat-icon>
+      <h2>{{summary.upcomingExams}}</h2>
+      <p>Upcoming Exams</p>
+  </mat-card>
+</div>
+
+<h2 class="section-title">Quick Actions</h2>
+<div class="actions-grid">
+  <button mat-raised-button color="primary" routerLink="/upload-center">
+      Attendance
+  </button>
+
+  <button mat-raised-button color="primary" routerLink="/upload-center">
+      Fees
+  </button>
+
+  <button mat-raised-button color="primary" routerLink="/upload-center">
+      Exams
+  </button>
+
+  <button mat-raised-button color="primary" routerLink="/upload-center">
+      Broadcast
+  </button>
+</div>

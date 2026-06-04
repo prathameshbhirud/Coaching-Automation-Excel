@@ -1,9 +1,26 @@
 import { Component } from '@angular/core';
 
+import { RouterModule } from '@angular/router';
+
+import { MatListModule }
+from '@angular/material/list';
+
+import { MatIconModule }
+from '@angular/material/icon';
+
 @Component({
   selector: 'app-sidebar',
-  imports: [],
+
+  standalone: true,
+
+  imports: [
+    RouterModule,
+    MatListModule,
+    MatIconModule
+  ],
+
   templateUrl: './sidebar.html',
-  styleUrl: './sidebar.scss',
+  styleUrls: ['./sidebar.scss']
 })
-export class Sidebar {}
+export class Sidebar {
+}
