@@ -1,0 +1,86 @@
+<mat-card appearance="outlined" class="upload-card">
+
+  <h2 class="module-title">
+
+    <mat-icon>upload_file</mat-icon>
+
+    {{title}}
+
+  </h2>
+
+  <input
+      type="file"
+      accept=".xlsx"
+      (change)="onFileSelected($event)" />
+
+  <div
+      class="file-name"
+      *ngIf="selectedFile">
+
+      Selected:
+      {{selectedFile.name}}
+
+  </div>
+
+  <button
+      mat-raised-button
+      color="primary"
+      (click)="upload()">
+
+      Upload
+
+  </button>
+
+  <mat-divider></mat-divider>
+
+  <div
+      *ngIf="preview"
+      class="preview-section">
+
+      <h3>Preview</h3>
+
+      <p>
+          Total Records:
+          {{preview.totalRecords}}
+      </p>
+
+      <p>
+          Actionable Records:
+          {{preview.actionableRecords}}
+      </p>
+
+  </div>
+
+  <button
+      mat-raised-button
+      color="accent"
+      (click)="send()">
+
+      Send Notifications
+
+  </button>
+
+  <div
+      *ngIf="result"
+      class="result-section">
+
+      <h3>Result</h3>
+
+      <p>
+          Processed:
+          {{result.processed}}
+      </p>
+
+      <p>
+          Sent:
+          {{result.sent}}
+      </p>
+
+      <p>
+          Failed:
+          {{result.failed}}
+      </p>
+
+  </div>
+
+</mat-card>

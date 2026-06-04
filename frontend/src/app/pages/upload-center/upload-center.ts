@@ -8,6 +8,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { FileUploadService } from '../../core/services/file-upload.service';
 import { PreviewService } from '../../core/services/preview.service';
 import { NotificationService } from '../../core/services/notification.service';
+import { UploadModule } from '../../shared/components/upload-module/upload-module';
 
 @Component({
     selector: 'app-upload-center',
@@ -16,7 +17,8 @@ import { NotificationService } from '../../core/services/notification.service';
         MatCardModule,
         MatButtonModule,
         MatIconModule,
-        MatDividerModule
+        MatDividerModule,
+        UploadModule
     ],
     templateUrl: './upload-center.html',
     styleUrl: './upload-center.scss',
