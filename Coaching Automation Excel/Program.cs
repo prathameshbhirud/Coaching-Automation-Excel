@@ -18,6 +18,9 @@ builder.Host.UseSerilog();
 
 builder.Services.AddControllers();
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 builder.Services.Configure<TwilioSettings>(
     builder.Configuration.GetSection("Twilio"));
 
@@ -40,7 +43,26 @@ builder.Services.AddHangfire(config =>
 
 builder.Services.AddHangfireServer();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngular",
+        policy =>
+        {
+            policy
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials()
+                .WithOrigins("http://localhost:4200");
+        });
+});
+
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.UseRouting();
 app.UseAuthorization();
@@ -49,5 +71,7 @@ app.MapControllers();
 
 // Hangfire Dashboard
 app.UseHangfireDashboard();
+
+app.UseCors("AllowAngular");
 
 app.Run();

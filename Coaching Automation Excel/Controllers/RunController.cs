@@ -20,9 +20,8 @@ public class RunController : ControllerBase
     [HttpGet("attendance")]
     public async Task<IActionResult> Attendance()
     {
-        await _job.RunAttendanceNotifications();
-
-        return Ok("Attendance notifications sent.");
+        var result = await _job.RunAttendanceNotifications();
+        return Ok(result);
     }
 
     // =========================
@@ -31,9 +30,8 @@ public class RunController : ControllerBase
     [HttpGet("fees")]
     public async Task<IActionResult> Fees()
     {
-        await _job.RunFeeReminders();
-
-        return Ok("Fee reminders sent.");
+        var result = await _job.RunFeeReminders();
+        return Ok(result);
     }
 
     // =========================
@@ -42,9 +40,8 @@ public class RunController : ControllerBase
     [HttpGet("exams")]
     public async Task<IActionResult> Exams()
     {
-        await _job.RunExamReminders();
-
-        return Ok("Exam reminders sent.");
+        var result = await _job.RunExamReminders();
+        return Ok(result);
     }
 
     // =========================
@@ -53,8 +50,7 @@ public class RunController : ControllerBase
     [HttpGet("broadcast")]
     public async Task<IActionResult> Broadcast()
     {
-        await _job.RunBroadcasts();
-
-        return Ok("Broadcast messages sent.");
+        var result = await _job.RunBroadcasts();
+        return Ok(result);
     }
 }

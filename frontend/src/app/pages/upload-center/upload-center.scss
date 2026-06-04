@@ -1,0 +1,27 @@
+.page {
+    padding: 32px;
+    background: #f5f7fa;
+    min-height: 100vh;
+}
+
+.upload-card {
+    max-width: 700px;
+    margin-top: 24px;
+    padding: 24px;
+}
+
+.file-name {
+    margin-top: 12px;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+button {
+    margin-top: 16px;
+    margin-right: 12px;
+}
+
+mat-divider {
+    margin-top: 24px;
+    margin-bottom: 24px;
+}

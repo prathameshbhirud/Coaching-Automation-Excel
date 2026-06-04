@@ -10,3 +10,7 @@ credentials.json
 # OS files
 .DS_Store
 Thumbs.db
+
+# angular
+frontend/node_modules
+frontend/dist

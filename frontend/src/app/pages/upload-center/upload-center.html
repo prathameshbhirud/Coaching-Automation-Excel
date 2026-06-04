@@ -1,0 +1,49 @@
+<div class="page">
+  <h1>Coaching Automation</h1>
+
+  <mat-card class="upload-card">
+
+    <h2>Attendance Module</h2>
+
+    <input type="file" accept=".xlsx" (change)="onAttendanceSelected($event)">
+
+    <div class="file-name" *ngIf="attendanceFile">
+
+      Selected: {{attendanceFile.name}}
+
+    </div>
+
+    <button mat-raised-button color="primary" (click)="uploadAttendance()">
+      Upload File
+    </button>
+
+    <mat-divider></mat-divider>
+
+    <div *ngIf="attendancePreview">
+
+      <h3>Preview</h3>
+
+      <p> Total Records:{{attendancePreview.totalRecords}}</p>
+
+      <p> Actionable Records: {{attendancePreview.actionableRecords}}</p>
+
+    </div>
+
+    <button mat-raised-button color="accent" (click)="sendAttendance()">
+      Send Notifications
+    </button>
+
+    <div *ngIf="attendanceResult">
+      <h3>Result</h3>
+
+      <p> Processed: {{attendanceResult.processed}} </p>
+
+      <p> Sent: {{attendanceResult.sent}} </p>
+
+      <p> Failed: {{attendanceResult.failed}} </p>
+
+    </div>
+
+  </mat-card>
+
+</div>
