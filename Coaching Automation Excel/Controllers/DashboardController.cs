@@ -9,35 +9,53 @@ namespace CoachingAutomationExcel.Controllers;
 public class DashboardController : ControllerBase
 {
     private readonly ExcelService _excel;
+    private readonly ILogger<FilesController> _logger;
 
-    public DashboardController(ExcelService excel)
+    public DashboardController(ExcelService excel, ILogger<FilesController> logger)
     {
         _excel = excel;
+        _logger = logger;
     }
 
     [HttpGet("summary")]
     public IActionResult GetSummary()
     {
-        var attendanceStudents = _excel.GetAttendanceStudents();
-
-        var feeStudents = _excel.GetFeesStudents();
-
-        var examStudents = _excel.GetExamStudents();
-
-        var response = new DashboardSummaryDto
+        try
         {
-            TotalStudents = attendanceStudents.Count,
+            var attendanceStudents = _excel.GetAttendanceStudents();
 
-            AttendanceToday = attendanceStudents.Count(
-                x => x.Attendance.Equals(
-                    "Present",
-                    StringComparison.OrdinalIgnoreCase)),
+            var feeStudents = _excel.GetFeesStudents();
 
-            PendingFees = feeStudents.Count(x => x.FeesDue > 0),
+            var examStudents = _excel.GetExamStudents();
 
-            UpcomingExams = examStudents.Count(x => x.ExamDate >= DateTime.Today)
-        };
+            var response = new DashboardSummaryDto
+            {
+                IsDataAvailable = attendanceStudents.Any() || feeStudents.Any() || examStudents.Any(),
+                TotalStudents = attendanceStudents.Count,
 
-        return Ok(response);
+                AttendanceToday = attendanceStudents.Count(
+                    x => x.Attendance.Equals(
+                        "Present",
+                        StringComparison.OrdinalIgnoreCase)),
+
+                PendingFees = feeStudents.Count(x => x.FeesDue > 0),
+
+                UpcomingExams = examStudents.Count(x => x.ExamDate >= DateTime.Today)
+            };
+
+            return Ok(response);    
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Dashboard summary failed");
+            return Ok(new DashboardSummaryDto
+            {
+                TotalStudents = 0,
+                AttendanceToday = 0,
+                PendingFees = 0,
+                UpcomingExams = 0
+            });
+        }
+        
     }
 }

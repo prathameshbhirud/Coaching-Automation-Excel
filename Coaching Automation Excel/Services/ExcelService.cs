@@ -29,6 +29,8 @@ public class ExcelService
 
         var file = new FileInfo(fullPath);
 
+        if (!file.Exists) return students;
+
         using var package = new ExcelPackage(file);
 
         var sheet = package.Workbook.Worksheets.FirstOrDefault();
@@ -67,6 +69,8 @@ public class ExcelService
             _settings.FeesFilePath);
 
         var file = new FileInfo(fullPath);
+
+        if (!file.Exists) return students;
 
         using var package = new ExcelPackage(file);
 
@@ -111,6 +115,8 @@ public class ExcelService
             _settings.ExamsFilePath);
 
         var file = new FileInfo(fullPath);
+
+        if (!file.Exists) return students;
 
         using var package = new ExcelPackage(file);
 
@@ -165,6 +171,8 @@ public class ExcelService
             fullPath);
 
         var file = new FileInfo(fullPath);
+
+        if (!file.Exists) return messages;
 
         using var package = new ExcelPackage(file);
 

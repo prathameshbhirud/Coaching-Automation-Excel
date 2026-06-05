@@ -9,4 +9,6 @@ public class DashboardSummaryDto
     public int PendingFees { get; set; }
 
     public int UpcomingExams { get; set; }
+
+    public bool IsDataAvailable { get; set; }
 }

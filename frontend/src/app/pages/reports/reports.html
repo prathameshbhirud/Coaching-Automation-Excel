@@ -1,0 +1,102 @@
+<h1>Reports</h1>
+
+<mat-tab-group>
+  <mat-tab label="Attendance">
+    <div class="tab-content">
+      <table mat-table [dataSource]="attendanceData">
+        <!-- Student Name -->
+        <ng-container matColumnDef="studentName">
+          <th mat-header-cell *matHeaderCellDef>
+            Student
+          </th>
+          <td mat-cell *matCellDef="let row">
+            {{row.studentName}}
+          </td>
+        </ng-container>
+
+        <!-- Parent Phone -->
+        <ng-container matColumnDef="parentPhone">
+          <th mat-header-cell *matHeaderCellDef>
+            Phone
+          </th>
+          <td mat-cell *matCellDef="let row">
+            {{row.parentPhone}}
+          </td>
+        </ng-container>
+
+        <!-- Attendance -->
+        <ng-container matColumnDef="attendance">
+          <th mat-header-cell *matHeaderCellDef>
+            Attendance
+          </th>
+          <td mat-cell *matCellDef="let row">
+            {{row.attendance}}
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef=" let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Fees">
+      <div class="placeholder">
+        <table mat-table [dataSource]="feesData">
+            <ng-container matColumnDef="studentName">
+                <th mat-header-cell *matHeaderCellDef>Student</th>
+                    <td mat-cell *matCellDef="let row">{{row.studentName}}</td>
+            </ng-container>
+            <ng-container matColumnDef="parentPhone">
+                <th mat-header-cell *matHeaderCellDef>Phone</th>
+                <td mat-cell *matCellDef="let row">{{row.parentPhone}}</td>
+            </ng-container>
+            <ng-container matColumnDef="feesDue">
+                <th mat-header-cell *matHeaderCellDef>Fees Due</th>
+                <td mat-cell *matCellDef="let row">₹{{row.feesDue}}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="feesColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: feesColumns;"></tr>
+        </table>
+      </div>
+  </mat-tab>
+
+  <mat-tab label="Exams">
+      <div class="placeholder">
+        <table mat-table [dataSource]="examData">
+            <ng-container matColumnDef="studentName">
+                <th mat-header-cell *matHeaderCellDef>Student</th>
+                <td mat-cell *matCellDef="let row">{{row.studentName}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="parentPhone">
+                <th mat-header-cell *matHeaderCellDef>Phone</th>
+                <td mat-cell *matCellDef="let row">{{row.parentPhone}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="examDate">
+                <th mat-header-cell *matHeaderCellDef>Exam Date</th>
+                <td mat-cell *matCellDef="let row">{{row.examDate}}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="examColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: examColumns;"></tr>
+        </table>
+      </div>
+  </mat-tab>
+
+  <mat-tab label="Broadcast">
+      <div class="placeholder">
+        <table mat-table [dataSource]="broadcastData">
+            <ng-container matColumnDef="message">
+                <th mat-header-cell *matHeaderCellDef>Message</th>
+                <td mat-cell *matCellDef="let row">{{row.message}}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="broadcastColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: broadcastColumns;"></tr>
+        </table>
+      </div>
+  </mat-tab>
+
+</mat-tab-group>

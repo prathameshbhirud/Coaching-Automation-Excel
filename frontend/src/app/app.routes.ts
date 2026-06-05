@@ -5,6 +5,7 @@ import { Dashboard } from './pages/dashboard/dashboard';
 import { UploadCenter } from './pages/upload-center/upload-center';
 import { Logs } from './pages/logs/logs';
 import { Settings } from './pages/settings/settings';
+import { Reports } from './pages/reports/reports';
 
 export const routes: Routes = [
   {
@@ -31,6 +32,10 @@ export const routes: Routes = [
       {
         path: 'settings',
         component: Settings
+      },
+      {
+        path: 'reports',
+        component: Reports
       }
     ]
   }

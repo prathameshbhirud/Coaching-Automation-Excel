@@ -10,19 +10,25 @@ public class NotificationJob
     private readonly TelegramService _telegram;
     private readonly ILogger<NotificationJob> _logger;
     private readonly MessageTemplateService _templates;
+    private readonly ActivityService _activityService;
+    private readonly StatisticsService _statisticsService;
 
     public NotificationJob(
         ExcelService excel,
         WhatsAppService whatsapp,
         TelegramService telegram,
         ILogger<NotificationJob> logger,
-        MessageTemplateService templates)
+        MessageTemplateService templates,
+        ActivityService activityService,
+        StatisticsService statisticsService)
     {
         _excel = excel;
         _whatsapp = whatsapp;
         _telegram = telegram;
         _logger = logger;
         _templates = templates;
+        _activityService = activityService;
+        _statisticsService = statisticsService;
     }
 
     // =========================
@@ -57,6 +63,8 @@ public class NotificationJob
                 result.Failed++;
             }
         }
+        _activityService.Add($"Attendance notifications sent ({result.Sent})");
+        _statisticsService.AddAttendance(result.Sent);
         return result;
     }
 
@@ -109,6 +117,8 @@ public class NotificationJob
         }
 
         _logger.LogInformation("Completed fee reminders. Sent={Sent}, Failed={Failed}", result.Sent, result.Failed);
+        _activityService.Add($"Fee reminders sent ({result.Sent})");
+        _statisticsService.AddFees(result.Sent);
         return result;
     }
 
@@ -161,6 +171,8 @@ public class NotificationJob
         }
 
         _logger.LogInformation("Completed exam reminders. Sent={Sent}, Failed={Failed}", result.Sent, result.Failed);
+        _activityService.Add($"Exam reminders sent ({result.Sent})");
+        _statisticsService.AddExams(result.Sent);
         return result;
     }
 
@@ -226,6 +238,8 @@ public class NotificationJob
         }
 
         _logger.LogInformation("Completed broadcasts. Sent={Sent}, Failed={Failed}", result.Sent, result.Failed);
+        _activityService.Add($"Broadcast messages sent ({result.Sent})");
+        _statisticsService.AddBroadcast(result.Sent);
         return result;
     }
 }

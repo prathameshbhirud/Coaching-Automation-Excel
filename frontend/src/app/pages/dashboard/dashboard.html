@@ -28,6 +28,48 @@
   </mat-card>
 </div>
 
+<mat-card class="activity-card">
+  <h2>Recent Activity</h2>
+  <div *ngFor="let activity of activities" class="activity-item">
+    <strong> {{activity.timestamp | date:'shortTime'}} </strong>
+      -
+    {{activity.message}}
+  </div>
+</mat-card>
+
+<mat-card class="stats-card" *ngIf="stats">
+  <h2>Notification Statistics</h2>
+
+  <div class="stats-grid">
+    <div class="stat-item">
+      Attendance
+      <strong>{{stats.attendanceMessages}}</strong>
+    </div>
+
+    <div class="stat-item">
+      Fees
+      <strong>{{stats.feeReminders}}</strong>
+    </div>
+
+    <div class="stat-item">
+      Exams
+      <strong>{{stats.examReminders}}</strong>
+    </div>
+
+    <div class="stat-item">
+      Broadcast
+      <strong>{{stats.broadcastMessages}}</strong>
+    </div>
+  </div>
+</mat-card>
+
+<mat-card class="chart-card">
+  <h2>Attendance Trend</h2>
+
+  <canvas baseChart [data]="trendData" [type]="'line'"></canvas>
+
+</mat-card>
+
 <h2 class="section-title">Quick Actions</h2>
 <div class="actions-grid">
   <button mat-raised-button color="primary" routerLink="/upload-center">
