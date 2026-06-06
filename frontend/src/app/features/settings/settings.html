@@ -1,0 +1,74 @@
+<div *ngIf="model">
+  <mat-tab-group>
+    <mat-tab label="General">
+      <div class="tab-content">
+        <mat-form-field appearance="outline">
+          <mat-label>Coaching Name</mat-label>
+          <input matInput [(ngModel)]="model.coachingName">
+        </mat-form-field>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="WhatsApp">
+      <div class="tab-content">
+        <mat-form-field appearance="outline">
+          <mat-label>Twilio SID</mat-label>
+          <input matInput [(ngModel)]="model.twilioSid">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Twilio Token</mat-label>
+          <input matInput [(ngModel)]="model.twilioToken">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Twilio Number</mat-label>
+          <input matInput [(ngModel)]="model.twilioNumber">
+        </mat-form-field>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Telegram">
+      <div class="tab-content">
+        <mat-form-field appearance="outline">
+          <mat-label>Bot Token</mat-label>
+          <input matInput [(ngModel)]="model.telegramBotToken">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Chat Id</mat-label>
+          <input matInput [(ngModel)]="model.telegramChatId">
+        </mat-form-field>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Notifications">
+      <div class="tab-content">
+        <mat-slide-toggle [(ngModel)]="model.attendanceEnabled">
+          Attendance Enabled
+        </mat-slide-toggle>
+        
+        <br>
+
+        <mat-slide-toggle [(ngModel)]="model.feesEnabled">
+          Fees Enabled
+        </mat-slide-toggle>
+
+        <br>
+
+        <mat-slide-toggle [(ngModel)]="model.examsEnabled">
+          Exams Enabled
+        </mat-slide-toggle>
+
+        <br>
+
+        <mat-slide-toggle [(ngModel)]="model.broadcastEnabled">
+          Broadcast Enabled
+        </mat-slide-toggle>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+
+  <div class="save-section">
+    <button mat-raised-button color="primary" (click)="save()">
+      Save Settings
+    </button>
+  </div>
+</div>

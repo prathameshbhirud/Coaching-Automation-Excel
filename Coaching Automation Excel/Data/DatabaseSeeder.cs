@@ -17,6 +17,19 @@ public static class DatabaseSeeder
                 Role = "Admin"
             });
 
-        db.SaveChanges();
+        db.SaveChanges();  
+    }
+
+    public static void SeedAppSettings(CoachingDbContext db)
+    {
+        if (db.AppSettings.Any())
+            return;
+
+        db.AppSettings.Add(new AppSetting
+        {
+            CoachingName = "My Coaching Institute"
+        });
+
+        db.SaveChanges();  
     }
 }

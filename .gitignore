@@ -3,6 +3,15 @@ obj/
 .vs/
 .vscode/
 
+# Database
+*.db
+*.db-shm
+*.db-wal
+
+# Logs
+logs/
+*.log
+
 # secrets
 appsettings.json
 credentials.json
@@ -12,5 +21,5 @@ credentials.json
 Thumbs.db
 
 # angular
-frontend/node_modules
-frontend/dist
+node_modules/
+dist/

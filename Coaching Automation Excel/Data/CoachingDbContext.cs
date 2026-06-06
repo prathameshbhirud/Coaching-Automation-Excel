@@ -14,4 +14,6 @@ public class CoachingDbContext: DbContext
     public DbSet<NotificationStatistic> NotificationStatistics => Set<NotificationStatistic>();
 
     public DbSet<User> Users => Set<User>();
+
+    public DbSet<AppSetting> AppSettings => Set<AppSetting>();
 }

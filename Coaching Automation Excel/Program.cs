@@ -12,6 +12,7 @@ using CoachingAutomationExcel.Services;
 using CoachingAutomationExcel.Jobs;
 using CoachingAutomationExcel.Models;
 using CoachingAutomationExcel.Data;
+using CoachingAutomationExcel.Middleware;
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Information()
@@ -69,6 +70,7 @@ builder.Services.AddScoped<StatisticsService>();
 builder.Services.AddScoped<ExportService>();
 builder.Services.AddScoped<PdfExportService>();
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<SettingsService>();
 
 // Adding DbContext for SQLite
 builder.Services.AddDbContext<CoachingDbContext>(
@@ -140,16 +142,18 @@ builder.Services.AddHangfireServer();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAngular",
-        policy =>
+    options.AddPolicy("AllowAngular", policy =>
         {
-            policy
+            policy.WithOrigins(
+                    "http://localhost:4200",
+                    "https://yourfuturedomain.com") // TODO: replace with actual domain post deployment
                 .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowCredentials()
-                .WithOrigins("http://localhost:4200");
+                .AllowAnyMethod();
         });
 });
+
+// TODO: remove this after testing.
+Console.WriteLine(builder.Configuration["Jwt:Key"]);
 
 // QuestPDF License
 QuestPDF.Settings.License = LicenseType.Community;
@@ -166,9 +170,12 @@ using(var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<CoachingDbContext>();
     DatabaseSeeder.SeedUsers(db);
+    DatabaseSeeder.SeedAppSettings(db);
 }
 
 app.UseRouting();
+
+app.UseMiddleware<GlobalExceptionMiddleware>();
 
 // Maintain order for following two middlewares
 app.UseAuthentication();

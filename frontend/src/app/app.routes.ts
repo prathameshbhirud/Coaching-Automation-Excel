@@ -4,7 +4,7 @@ import { MainLayout } from './layout/main-layout/main-layout';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { UploadCenter } from './pages/upload-center/upload-center';
 import { Logs } from './pages/logs/logs';
-import { Settings } from './pages/settings/settings';
+import { Settings } from './features/settings/settings';
 import { Reports } from './pages/reports/reports';
 import { Login } from './features/login/login';
 import { authGuard } from './core/auth/auth.guard';
