@@ -73,8 +73,10 @@ builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<SettingsService>();
 
 // Adding DbContext for SQLite
+var dbPath = Path.Combine(builder.Environment.ContentRootPath, "coaching.db");
+
 builder.Services.AddDbContext<CoachingDbContext>(
-    options => options.UseSqlite("Data Source=coaching.db"));
+    options => options.UseSqlite($"Data Source={dbPath}"));
 
 // JWT
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
