@@ -1,8 +1,10 @@
-using CoachingAutomationExcel.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using CoachingAutomationExcel.Services;
 
 namespace CoachingAutomationExcel.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/logs")]
 public class LogsController : ControllerBase

@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using CoachingAutomationExcel.Models;
 using CoachingAutomationExcel.Services;
-using Microsoft.AspNetCore.Mvc;
 
 namespace CoachingAutomationExcel.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/preview")]
 public class PreviewController : ControllerBase

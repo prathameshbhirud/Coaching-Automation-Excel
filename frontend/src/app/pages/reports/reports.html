@@ -3,6 +3,14 @@
 <mat-tab-group>
   <mat-tab label="Attendance">
     <div class="tab-content">
+      <div class="actions">
+        <button mat-raised-button color="primary" (click)="exportAttendance()">
+          <mat-icon>download</mat-icon>Export Excel
+        </button>
+        <button mat-raised-button color="accent" (click)="exportAttendancePdf()">
+          <mat-icon>picture_as_pdf</mat-icon>Export PDF
+        </button>
+      </div>
       <table mat-table [dataSource]="attendanceData">
         <!-- Student Name -->
         <ng-container matColumnDef="studentName">
@@ -23,7 +31,7 @@
             {{row.parentPhone}}
           </td>
         </ng-container>
-
+      
         <!-- Attendance -->
         <ng-container matColumnDef="attendance">
           <th mat-header-cell *matHeaderCellDef>
@@ -42,6 +50,12 @@
 
   <mat-tab label="Fees">
       <div class="placeholder">
+        <button mat-raised-button color="primary" (click)="exportFees()">
+          <mat-icon>download</mat-icon>Export Excel
+        </button>
+        <button mat-raised-button color="accent" (click)="exportFeesPdf()">
+          <mat-icon>picture_as_pdf</mat-icon>Export PDF
+        </button>
         <table mat-table [dataSource]="feesData">
             <ng-container matColumnDef="studentName">
                 <th mat-header-cell *matHeaderCellDef>Student</th>
@@ -63,6 +77,12 @@
 
   <mat-tab label="Exams">
       <div class="placeholder">
+        <button mat-raised-button color="primary" (click)="exportExams()">
+          <mat-icon>download</mat-icon>Export Excel
+        </button>
+        <button mat-raised-button color="accent" (click)="exportExamsPdf()">
+          <mat-icon>picture_as_pdf</mat-icon>Export PDF
+        </button>
         <table mat-table [dataSource]="examData">
             <ng-container matColumnDef="studentName">
                 <th mat-header-cell *matHeaderCellDef>Student</th>
@@ -87,6 +107,12 @@
 
   <mat-tab label="Broadcast">
       <div class="placeholder">
+        <button mat-raised-button color="primary" (click)="exportBroadcast()">
+          <mat-icon>download</mat-icon>Export Excel
+        </button>
+        <button mat-raised-button color="accent" (click)="exportBroadcastPdf()">
+          <mat-icon>picture_as_pdf</mat-icon>Export PDF
+        </button>
         <table mat-table [dataSource]="broadcastData">
             <ng-container matColumnDef="message">
                 <th mat-header-cell *matHeaderCellDef>Message</th>
@@ -99,4 +125,4 @@
       </div>
   </mat-tab>
 
-</mat-tab-group>
+</mat-tab-group> 

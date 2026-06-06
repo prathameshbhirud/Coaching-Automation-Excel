@@ -1,8 +1,11 @@
-using CoachingAutomationExcel.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using CoachingAutomationExcel.Models;
+
 
 namespace CoachingAutomationExcel.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/files")]
 public class FilesController : ControllerBase

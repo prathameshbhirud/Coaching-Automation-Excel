@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using CoachingAutomationExcel.Jobs;
 
 namespace CoachingAutomationExcel.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/run")]
 public class RunController : ControllerBase

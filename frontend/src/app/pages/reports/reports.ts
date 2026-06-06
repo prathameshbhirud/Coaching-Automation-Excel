@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 import { ReportsService } from '../../core/services/reports.service';
 
@@ -12,7 +14,9 @@ import { ReportsService } from '../../core/services/reports.service';
   imports: [
     CommonModule,
     MatTabsModule,
-    MatTableModule
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule
   ],
   templateUrl: './reports.html',
   styleUrls: ['./reports.scss']
@@ -87,6 +91,63 @@ export class Reports implements OnInit {
     this.reportsService.broadcast().subscribe(result => {
       this.broadcastData = result as any[];
       this.cdr.detectChanges();
+    });
+  }
+
+  exportAttendance() {
+    this.reportsService.exportAttendance().subscribe(blob => {
+      this.downloadFile(blob, 'attendance-report.xlsx');
+    });
+  }
+
+  exportFees() {
+    this.reportsService.exportFees().subscribe(blob => {
+      this.downloadFile(blob, 'fees-report.xlsx');
+    });
+  }
+
+  exportExams() {
+    this.reportsService.exportExams().subscribe(blob => {
+      this.downloadFile(blob, 'exam-report.xlsx');
+    });
+  }
+
+  exportBroadcast() {
+    this.reportsService.exportBroadcast().subscribe(blob => {
+      this.downloadFile(blob, 'broadcast-report.xlsx');
+    });
+  }
+
+  private downloadFile(blob: Blob, fileName: string) {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
+
+  exportAttendancePdf() {
+    this.reportsService.exportAttendancePdf().subscribe(blob => {
+      this.downloadFile(blob,'attendance-report.pdf');
+    });
+  }
+
+  exportFeesPdf() {
+    this.reportsService.exportFeesPdf().subscribe(blob => {
+      this.downloadFile(blob,'fees-report.pdf');
+    });
+  }
+
+  exportExamsPdf() {
+    this.reportsService.exportExamsPdf().subscribe(blob => {
+      this.downloadFile(blob,'exams-report.pdf');
+    });
+  }
+
+  exportBroadcastPdf() {
+    this.reportsService.exportBroadcastPdf().subscribe(blob => {
+      this.downloadFile(blob,'broadcasts-report.pdf');
     });
   }
 }

@@ -1,47 +1,86 @@
+using CoachingAutomationExcel.Data;
+using CoachingAutomationExcel.Entities;
 using CoachingAutomationExcel.Models;
 
 namespace CoachingAutomationExcel.Services;
 
 public class StatisticsService
 {
-    private readonly NotificationStatsDto _stats = new();
+    private readonly CoachingDbContext _db;
 
-    private readonly List<AttendanceTrendDto> _trend =
-    [
-        new() { Date = "Mon", Count = 12 },
-        new() { Date = "Tue", Count = 15 },
-        new() { Date = "Wed", Count = 8 },
-        new() { Date = "Thu", Count = 18 },
-        new() { Date = "Fri", Count = 11 }
-    ];
+    public StatisticsService(CoachingDbContext db)
+    {
+        _db = db;
+    }
 
     public void AddAttendance(int count)
     {
-        _stats.AttendanceMessages += count;
+        UpdateStat("Attendance", count);
     }
 
     public void AddFees(int count)
     {
-        _stats.FeeReminders += count;
+        UpdateStat("Fees", count);
     }
 
     public void AddExams(int count)
     {
-        _stats.ExamReminders += count;
+        UpdateStat("Exams", count);
     }
 
     public void AddBroadcast(int count)
     {
-        _stats.BroadcastMessages += count;
+        UpdateStat("Broadcast", count);
+    }
+
+    private void UpdateStat(string type, int count)
+    {
+        var stat = _db.NotificationStatistics.FirstOrDefault(x => x.NotificationType == type);
+
+        if (stat == null)
+        {
+            stat = new NotificationStatistic
+            {
+                NotificationType = type,
+                Count = 0
+            };
+
+            _db.NotificationStatistics.Add(stat);
+        }
+
+        stat.Count += count;
+
+        _db.SaveChanges();
     }
 
     public NotificationStatsDto GetStats()
     {
-        return _stats;
+        return new NotificationStatsDto
+        {
+            AttendanceMessages = GetCount("Attendance"),
+
+            FeeReminders = GetCount("Fees"),
+
+            ExamReminders = GetCount("Exams"),
+
+            BroadcastMessages = GetCount("Broadcast")
+        };
+    }
+
+    private int GetCount(string type)
+    {
+        return _db.NotificationStatistics.FirstOrDefault(x => x.NotificationType == type)?.Count ?? 0;
     }
 
     public List<AttendanceTrendDto> GetAttendanceTrend()
     {
-        return _trend;
+        return new List<AttendanceTrendDto>
+        {
+            new() { Date = "Mon", Count = 12 },
+            new() { Date = "Tue", Count = 15 },
+            new() { Date = "Wed", Count = 8 },
+            new() { Date = "Thu", Count = 18 },
+            new() { Date = "Fri", Count = 11 }
+        };
     }
 }
